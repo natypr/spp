@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let newsSchema = mongoose.Schema({
-    title : {
+    title: {
         type: String,
         required: true
     },
@@ -9,10 +9,10 @@ let newsSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    likes:  {
-        type:Number,
+    likes: {
+        type: Number,
         default: 0
     }
-},{versionKey:false});
+}, {versionKey: false});
 
- module.exports = mongoose.model('news', newsSchema);
+module.exports = mongoose.model('news', newsSchema);
