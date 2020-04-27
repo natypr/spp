@@ -8,6 +8,7 @@ router.route('/news')
 router.route('/news/:news_id')
     .get(newsController.getById);
 
-
+router.route('/registration').post(authController.registration);
+router.route('/login').post(authController.login);
 
 module.exports = router;

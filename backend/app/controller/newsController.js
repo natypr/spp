@@ -1,8 +1,8 @@
 const News = require('../model/newsModel');
-const  ObjectId = require('mongoose').Types.ObjectId;
+const ObjectId = require('mongoose').Types.ObjectId;
 
 exports.getAllNews = (request, response) => {
-    News.find().sort({[request.query.sort]:request.query.order}).exec((err, news) => {
+    News.find().sort({[request.query.sort]: request.query.order}).exec((err, news) => {
         if (err) {
             response.json({
                 status: "error",
@@ -57,7 +57,7 @@ exports.update = (request, response) => {
         });
         return;
     }
-    News.findById(id,(err, news) => {
+    News.findById(id, (err, news) => {
         if (err) {
             response.send(err);
         }
