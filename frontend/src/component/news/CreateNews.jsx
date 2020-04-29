@@ -9,6 +9,7 @@ import {endpoints} from "../../constant/endpoints";
 import {withRouter} from 'react-router-dom';
 import {Routes} from "../../constant/Routes";
 import {RestRequest} from "../../service/requestService";
+import Card from "@material-ui/core/Card";
 
 class CreateNews extends React.Component {
 
@@ -26,36 +27,45 @@ class CreateNews extends React.Component {
 
     render() {
         return (
-            <Container>
-                <form noValidate autoComplete='off' onSubmit={this.onSubmit}>
-                    <Grid
-                        container
-                        direction="column"
-                        justify="space-evenly"
-                        alignItems="center"
-                    >
-                        <Box m={4}>
-                            <Grid item>
-                                <TextField id='title' label='title'/>
-                            </Grid>
-                        </Box>
-                        <Box m={4}>
-                            <Grid>
-                                <TextareaAutosize id='content' aria-label='empty textarea' placeholder='content'/>
-                            </Grid>
-                        </Box>
+            <Container maxWidth="sm">
+                <Box m={6}>
+                    <Card>
+                        <form noValidate autoComplete='off' onSubmit={this.onSubmit}>
 
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            color="primary"
-                        >
-                            Create
-                        </Button>
-                    </Grid>
-                </form>
+                            <Grid
+                                container
+                                direction="column"
+                                justify="space-evenly"
+                                alignItems="center"
+                            >
+                                <Box m={4}>
+                                    <Grid item>
+                                        <TextField id='title' label='title'/>
+                                    </Grid>
+                                </Box>
+                                <Box m={4}>
+                                    <Grid>
+                                        <TextareaAutosize id='content'
+                                                          aria-label='empty textarea'
+                                                          placeholder='content'
+                                                          rowsMin={4}/>
+                                    </Grid>
+                                </Box>
+
+                                <Box m={2}>
+                                    <Button
+                                        type="submit"
+                                        variant="contained"
+                                        color="primary"
+                                    >
+                                        Create
+                                    </Button>
+                                </Box>
+                            </Grid>
+                        </form>
+                    </Card>
+                </Box>
             </Container>
-
         )
     }
 }

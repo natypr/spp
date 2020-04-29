@@ -67,15 +67,13 @@ class News extends React.Component {
                                     Delete
                                 </Button>
                                 :
-                                <></>
+                                <>
+                                </>
                         }
-
                     </CardActions>
                 </Card>
             </Box>
-
         )
-
     }
 }
 

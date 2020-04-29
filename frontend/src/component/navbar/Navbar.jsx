@@ -18,18 +18,19 @@ class Navbar extends React.Component {
     news = () => {
         this.props.history.push(Routes.news);
     };
+
     logout = () => this.context.logout();
 
     render() {
         return (
             <AppBar position='static'>
                 <Toolbar>
-                    <Button onClick={this.news}>
+                    <Button onClick={this.news} color={"inherit"}>
                         News
                     </Button>
                     {this.context.currentUser ?
                         <>
-                            <Button onClick={this.create}>
+                            <Button onClick={this.create} color={"inherit"}>
                                 Create news
                             </Button>
                             <IconButton onClick={this.logout}>
@@ -46,13 +47,11 @@ class Navbar extends React.Component {
                                 <ExitToApp color='action'/>
                             </IconButton>
                         </Link>
-
                     }
                 </Toolbar>
-            </AppBar>)
-
+            </AppBar>
+        )
     }
-
 }
 
 Navbar.contextType = AuthContext;

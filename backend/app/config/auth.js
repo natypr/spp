@@ -1,4 +1,4 @@
 module.exports = {
-    secretKey: '<key>',
-    expires: '<time>'
+    secretKey: 'natySecretKey',
+    expires: '86400000'
 };
