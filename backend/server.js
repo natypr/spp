@@ -1,15 +1,24 @@
-const express = require('express');
-const cors = require('cors');
 const mongoose = require("mongoose");
 const bodyParser = require('body-parser');
-const db = require('./app/config/db');
-const auth = require('./app/auth');
-
-const port = 8090;
-const app = express();
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(bodyParser.json());
+const cors = require('cors');
+const app = require('express')();
+const users = require('./app/route/user-routes');
 app.use(cors());
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
+app.use(users);
+const http = require('http').createServer(app);
+const io = require('socket.io');
+
+const endpoints = require('./app/constant/newsEndpoints');
+const newsController = require('./app/controller/newsController');
+
+const auth = require('./app/config/auth');
+const db = require('./app/config/db');
+const jwt = require("jsonwebtoken");
+
+const socket = io(http);
+const port = 8090;
 
 mongoose.connect(db.url, {
     useNewUrlParser: true,
@@ -19,12 +28,30 @@ mongoose.connect(db.url, {
 });
 const database = mongoose.connection;
 database ? console.log("Db connected successfully") : console.log("Error connecting db");
+socket.on('connection', (socket) => {
+    console.log('User connected');
+    socket.on(endpoints.getAll, (params) => {
+        newsController.getAllNews(params, (data) => socket.emit(endpoints.sendAll, data));
+    });
+    socket.on(endpoints.createNews, (news) => {
+        newsController.new(news, (data) => socket.emit(endpoints.sendAll, data));
+    });
+    socket.on(endpoints.updateNews, (news) => {
+        newsController.update(news, (data) => socket.emit(endpoints.sendUpdatedNews, data));
+    });
+    socket.on(endpoints.createNews, (news) => {
+        console.log('create');
+        newsController.new(news, (data) => socket.emit(endpoints.sendNewNews, data));
+    });
+    socket.on(endpoints.deleteNews, (id) => {
+        console.log('Delete');
+        newsController.delete(id, (data) => socket.emit(endpoints.sendDeletedNews, data));
+    });
+    socket.on('disconnect', () => {
+        console.log('Disconnected!');
+    })
+});
 
-const privateApiRoutes = require('./app/route/private-api-routes');
-const publicApiRoutes = require('./app/route/public-api-routes');
-app.use('/', publicApiRoutes);
-app.use(auth.isAuthorized);
-app.use('/', privateApiRoutes);
-app.listen(port, () => {
-    console.log("Running project  on port " + port);
+http.listen(port, (socketConnectOpts) => {
+    console.log('Connected to port: ' + port)
 });
