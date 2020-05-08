@@ -5,10 +5,10 @@ import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
-import {endpoints} from "../../constant/endpoints";
+import {endpointsClient, endpointsServer} from "../../constant/endpoints";
 import {withRouter} from 'react-router-dom';
+import {socket} from "../../service/requestService";
 import {Routes} from "../../constant/Routes";
-import {RestRequest} from "../../service/requestService";
 import Card from "@material-ui/core/Card";
 
 class CreateNews extends React.Component {
@@ -17,12 +17,10 @@ class CreateNews extends React.Component {
         event.preventDefault();
         const title = event.target.elements[0].value;
         const content = event.target.elements[1].value;
-        RestRequest.post(endpoints.postNews, {}, {title, content})
-            .then((response) => {
-                this.props.history.push(Routes.news);
-            }).catch(reason => {
-            if (reason.response.status === 401 || reason.response.status === 403) this.props.history.push(Routes.login);
+        socket.on(endpointsClient.getNew, () => {
+            this.props.history.push(Routes.news);
         });
+        socket.emit(endpointsServer.postNews, {title, content});
     };
 
     render() {
@@ -31,7 +29,6 @@ class CreateNews extends React.Component {
                 <Box m={6}>
                     <Card>
                         <form noValidate autoComplete='off' onSubmit={this.onSubmit}>
-
                             <Grid
                                 container
                                 direction="column"
