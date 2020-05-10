@@ -5,6 +5,24 @@ import Box from "@material-ui/core/Box";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
+import {styled} from '@material-ui/core/styles';
+
+const MyButton = styled(({color, ...other}) => <Button {...other} />)({
+    background: (props) =>
+        props.color === 'red'
+            ? 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)'
+            : 'linear-gradient(45deg, #2196F3 30%, #21CBF3 90%)',
+    border: 0,
+    borderRadius: 5,
+    boxShadow: (props) =>
+        props.color === 'red'
+            ? '0 3px 5px 2px rgba(255, 105, 135, .3)'
+            : '0 3px 5px 2px rgba(33, 203, 243, .3)',
+    color: 'white',
+    height: 38,
+    padding: '0 34px',
+    margin: 8,
+});
 
 export default class Editor extends React.Component {
     constructor(props) {
@@ -92,12 +110,13 @@ export default class Editor extends React.Component {
                                     type="file"
                                 />
                                 <label htmlFor="contained-button-file">
-                                    <Button variant="contained"
-                                            color={this.state.image ? 'primary' : 'secondary'}
-                                            component="span"
+                                    <MyButton
+                                        color={this.state.image ? 'blue' : 'red'}
+                                        variant="contained"
+                                        component="span"
                                     >
-                                        Upload
-                                    </Button>
+                                        Upload image
+                                    </MyButton>
                                 </label>
                             </React.Fragment>
                             }
@@ -106,25 +125,26 @@ export default class Editor extends React.Component {
                         <Box m={4}>
                             <Grid justify="space-between" container spacing={5}>
                                 <Grid item>
-                                    <Button style={{marginLeft: '1em'}}
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => this.props.onCancel()}>
+                                    <MyButton
+                                        onClick={() => this.props.onCancel()}
+                                        variant="contained"
+                                        color="blue"
+                                    >
                                         Cancel
-                                    </Button>
+                                    </MyButton>
                                 </Grid>
                                 <Grid item>
-                                    <Button
+                                    <MyButton
                                         disabled={!this.state.title
                                         || !this.state.body
                                         || (!this.props.post.id ? !this.state.image : false)}
                                         onClick={this.onSave}
                                         type="submit"
                                         variant="contained"
-                                        color="primary"
+                                        color="red"
                                     >
                                         Save
-                                    </Button>
+                                    </MyButton>
                                 </Grid>
                             </Grid>
                         </Box>

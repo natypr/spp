@@ -15,6 +15,8 @@ import {setContext} from 'apollo-link-context';
 import {InMemoryCache} from 'apollo-cache-inmemory';
 import {createUploadLink} from "apollo-upload-client";
 import Editor from "./component/news/editor/EditorContainer";
+import {createMuiTheme, ThemeProvider} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
 
 const httpLink = createUploadLink({
     uri: endpoints.graphql,
@@ -38,21 +40,30 @@ export const client = new ApolloClient({
     cache: new InMemoryCache()
 });
 
+const theme = createMuiTheme({
+    palette: {
+        type: "dark",
+    }
+});
+
 class App extends React.Component {
     render() {
         return (
-            <ApolloProvider client={client}>
-                <BrowserRouter>
-                    <Navbar/>
-                    <Switch>
-                        <OnlyGuestRoute exact path={Routes.login} component={Login}/>
-                        <OnlyGuestRoute exact path={Routes.registration} component={Registration}/>
-                        <PrivateRoute exact path={Routes.editor} component={Editor}/>
-                        <PrivateRoute exact path={Routes.posts} component={Posts}/>
-                        <Redirect to={Routes.posts}/>
-                    </Switch>
-                </BrowserRouter>
-            </ApolloProvider>
+            <ThemeProvider theme={theme}>
+                <ApolloProvider client={client}>
+                    <BrowserRouter>
+                        <CssBaseline/>
+                        <Navbar/>
+                        <Switch>
+                            <OnlyGuestRoute exact path={Routes.login} component={Login}/>
+                            <OnlyGuestRoute exact path={Routes.registration} component={Registration}/>
+                            <PrivateRoute exact path={Routes.editor} component={Editor}/>
+                            <PrivateRoute exact path={Routes.posts} component={Posts}/>
+                            <Redirect to={Routes.posts}/>
+                        </Switch>
+                    </BrowserRouter>
+                </ApolloProvider>
+            </ThemeProvider>
         );
     }
 }

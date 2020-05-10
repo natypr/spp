@@ -1,5 +1,4 @@
 import * as React from 'react';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Container from '@material-ui/core/Container';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
@@ -9,6 +8,7 @@ import {Link, withRouter} from 'react-router-dom';
 import {Routes} from '../../constant/Routes';
 import {AuthContext} from "../AuthProvider";
 import Alert from "../alert/Alert";
+import Box from "@material-ui/core/Box";
 
 
 class Login extends React.Component {
@@ -23,7 +23,7 @@ class Login extends React.Component {
         const password = event.target.elements[2].value;
         let resultPromise = this.context.login(email, password);
         resultPromise.then(() => {
-            this.props.history.push(Routes.news);
+            this.props.history.push(Routes.posts);
         }).catch(reason => {
             this.setState({error: reason.response.data.message})
         });
@@ -32,51 +32,54 @@ class Login extends React.Component {
     render() {
         return (
             <Container component='main' maxWidth='xs'>
-                <CssBaseline/>
                 {this.state.error ? <Alert severity="error">{this.state.error}</Alert> : <></>}
                 <div>
-                    <Typography component='h1' variant='h5'>
-                        Sign in
-                    </Typography>
-                    <form noValidate onSubmit={this.login}>
-                        <TextField
-                            variant='outlined'
-                            margin='normal'
-                            required
-                            fullWidth
-                            id='email'
-                            label='Email Address'
-                            name='email'
-                            autoComplete='email'
-                            autoFocus
-                        />
-                        <TextField
-                            variant='outlined'
-                            margin='normal'
-                            required
-                            fullWidth
-                            name='password'
-                            label='Password'
-                            type='password'
-                            id='password'
-                            autoComplete='current-password'
-                        />
-                        <Button
-                            type='submit'
-                            fullWidth
-                            variant='contained'
-                            color='primary'
-                        >
-                            Sign In
-                        </Button>
-                        <Grid container>
-                            <Grid item>
-                                <Link to={Routes.registration} variant='body2'>
-                                    Don't have an account? Sign Up
-                                </Link>
+                    <Box my={5}>
+                        <Typography component='h1' variant='h5'>
+                            Sign in
+                        </Typography>
+                        <form noValidate onSubmit={this.login}>
+                            <TextField
+                                variant='outlined'
+                                margin='normal'
+                                required
+                                fullWidth
+                                id='email'
+                                label='Email Address'
+                                name='email'
+                                autoComplete='email'
+                                autoFocus
+                            />
+                            <TextField
+                                variant='outlined'
+                                margin='normal'
+                                required
+                                fullWidth
+                                name='password'
+                                label='Password'
+                                type='password'
+                                id='password'
+                                autoComplete='current-password'
+                            />
+                            <Box my={2}>
+                                <Button
+                                    type='submit'
+                                    fullWidth
+                                    variant='contained'
+                                    color='primary'
+                                >
+                                    Sign In
+                                </Button>
+                            </Box>
+                            <Grid container>
+                                <Grid item>
+                                    <Link to={Routes.registration} variant='body2'>
+                                        Don't have an account? Sign Up
+                                    </Link>
+                                </Grid>
                             </Grid>
-                        </Grid>
-                    </form>
+                        </form>
+                    </Box>
                 </div>
             </Container>
         )

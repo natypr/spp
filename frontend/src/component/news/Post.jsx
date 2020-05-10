@@ -65,17 +65,18 @@ const Post = (props) => {
 
     let isPostHasLikesFromCurrentUser = post.likes.findIndex(user => user.id === authContext.currentUser.id) > -1;
     return (
-        <Box m={1}>
+        <Box m={2}>
             <Card>
                 <CardHeader title={post.title}/>
                 <CardContent>
-                    <Typography variant="body2" color="textSecondary" component="p">
-                        {post.body}
-                    </Typography>
+                    <Box mb={2}>
+                        <Typography variant="body2" color="textSecondary" component="p">
+                            {post.body}
+                        </Typography>
+                    </Box>
                     <img src={`${post.imageUrl}`}/>
                 </CardContent>
                 <CardActions>
-
                     {
                         isPostHasLikesFromCurrentUser ?
                             <IconButton onClick={unLike} aria-label="Like">
@@ -100,7 +101,8 @@ const Post = (props) => {
                                     <EditIcon fontSize="large"/>
                                 </IconButton>
                             </React.Fragment>
-                            : <React.Fragment/>
+                            :
+                            <React.Fragment/>
                     }
                 </CardActions>
             </Card>
