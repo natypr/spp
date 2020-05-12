@@ -16,20 +16,25 @@ app.use(express.urlencoded({extended: false}));
 app.use(passport.initialize());
 app.use(cors());
 
-app.listen(8090, () => {
-    console.log(`Server started on http://localhost:8090`);
+const PORT = 8090;
+app.listen(PORT, () => {
+    console.log(`Server started at PORT: ${PORT}`);
 });
-app.use('/graphql', authenticate.verifyUser, graphqlUploadExpress({maxFileSize: 10000000, maxFiles: 1}), graphqlHTTP({
-    schema,
-    rootValue: resolver
-}));
+
+app.use('/graphql',
+    authenticate.verifyUser,
+    graphqlUploadExpress({maxFileSize: 10000000, maxFiles: 1}),
+    graphqlHTTP({schema, rootValue: resolver})
+);
 const routes = require('./app/route/routes');
 app.use('/', routes);
+
 mongoose.connect(db.url, {
-    'useCreateIndex': true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useFindAndModify: false
-}, (err) => {
-    err ? console.log(err.message) : console.log('MongoDB Successfully Connected ...');
-});
+        'useCreateIndex': true,
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    }, (err) => {
+        err ? console.log(err.message) : console.log('MongoDB Successfully Connected ...');
+    }
+);
