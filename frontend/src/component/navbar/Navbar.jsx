@@ -8,12 +8,12 @@ import IconButton from "@material-ui/core/IconButton";
 import {ExitToApp} from "@material-ui/icons";
 import Typography from "@material-ui/core/Typography";
 import {getRouteForCreate} from "../../helper/routeHelper";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import ExploreIcon from '@material-ui/icons/Explore';
 import Switch from "@material-ui/core/Switch";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import {Box} from "@material-ui/core";
+import Grid from "@material-ui/core/Grid";
 
 
 class Navbar extends React.Component {
@@ -43,7 +43,7 @@ class Navbar extends React.Component {
 
     render() {
         return (
-            <AppBar color='light' position='static'>
+            <AppBar color='inherit' position='static'>
                 <Toolbar>
                     {this.context.currentUser ?
                         <>
@@ -53,47 +53,46 @@ class Navbar extends React.Component {
                             <IconButton onClick={this.create}>
                                 <AddBoxIcon/>
                             </IconButton>
-                            <IconButton>
-                                <FavoriteIcon/>
-                            </IconButton>
                         </>
                         :
                         <></>
                     }
-                    <FormControlLabel
-                        labelPlacement="start"
-                        label="Darkness"
-                        control={
-                            <Switch
-                                checked={this.state.active}
-                                onChange={this.toggle}
-                                value="checkedB"
-                                color="primary"
-                            />
-                        }
-                    />
-                    {this.context.currentUser ?
-                        <>
-                            <Box ml={3}>
-                                <Typography>
-                                    Hi,{this.context.currentUser.name}!
-                                </Typography>
-                            </Box>
-                            <IconButton onClick={this.logout}>
-                                <ExitToApp color='secondary'>
-                                </ExitToApp>
-                            </IconButton>
-
-                        </>
-                        :
-                        <Link to={Routes.login}>
-                            <Box ml={3}>
-                                <IconButton>
-                                    <ExitToApp color='action'/>
+                    <Grid container justify="flex-end">
+                        <FormControlLabel
+                            labelPlacement="start"
+                            label="Darkness"
+                            control={
+                                <Switch
+                                    checked={this.state.active}
+                                    onChange={this.toggle}
+                                    value="checkedB"
+                                    color="primary"
+                                />
+                            }
+                        />
+                        {this.context.currentUser ?
+                            <>
+                                <Box m={3}>
+                                    <Typography>
+                                        Hi,{this.context.currentUser.name}!
+                                    </Typography>
+                                </Box>
+                                <IconButton onClick={this.logout}>
+                                    <ExitToApp color='secondary'>
+                                    </ExitToApp>
                                 </IconButton>
-                            </Box>
-                        </Link>
-                    }
+
+                            </>
+                            :
+                            <Link to={Routes.login}>
+                                <Box ml={3}>
+                                    <IconButton>
+                                        <ExitToApp color='action'/>
+                                    </IconButton>
+                                </Box>
+                            </Link>
+                        }
+                    </Grid>
                 </Toolbar>
             </AppBar>
         )

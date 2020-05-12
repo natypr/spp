@@ -23,7 +23,7 @@ class Registration extends React.Component {
         const password = event.target.elements[4].value;
         let resultPromise = this.context.registration(name, email, password);
         resultPromise.then(() => {
-            this.props.history.push(Routes.news);
+            this.props.history.push(Routes.posts);
         }).catch(reason => {
             this.setState({error: reason.response.data.message})
         });

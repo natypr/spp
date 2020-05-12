@@ -18,6 +18,7 @@ import EditIcon from '@material-ui/icons/Edit';
 import {Routes} from "../../constant/Routes";
 import {getRouteForUpdate} from "../../helper/routeHelper";
 import {GET_POSTS} from "../../constant/query";
+import Grid from "@material-ui/core/Grid";
 
 const Post = (props) => {
     const post = props.post;
@@ -74,7 +75,7 @@ const Post = (props) => {
                             {post.body}
                         </Typography>
                     </Box>
-                    <img src={`${post.imageUrl}`}/>
+                    <img src={`${post.imageUrl}`} alt={""}/>
                 </CardContent>
                 <CardActions>
                     {
@@ -94,12 +95,14 @@ const Post = (props) => {
                         authContext.currentUser.id === post.owner.id
                             ?
                             <React.Fragment>
-                                <IconButton color='secondary' onClick={remove} aria-label="delete">
-                                    <DeleteIcon fontSize="large"/>
-                                </IconButton>
-                                <IconButton color='primary' onClick={onEdit} aria-label="edit">
-                                    <EditIcon fontSize="large"/>
-                                </IconButton>
+                                <Grid container justify="flex-end">
+                                    <IconButton color='secondary' onClick={remove} aria-label="delete">
+                                        <DeleteIcon fontSize="large"/>
+                                    </IconButton>
+                                    <IconButton color='primary' onClick={onEdit} aria-label="edit">
+                                        <EditIcon fontSize="large"/>
+                                    </IconButton>
+                                </Grid>
                             </React.Fragment>
                             :
                             <React.Fragment/>
